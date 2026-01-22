@@ -54,3 +54,35 @@ img {
     align-self: flex-start;
     margin-top: calc(2vw + 2vh);
 }
+
+.social {
+    height: calc(2vw + 2vh);
+    display: flex;
+    font-size: calc(1.5vw + 1.5vh);
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+.media {
+    position: relative;
+    display: flex;
+    width: auto;
+    background-color: #85f7ff4f;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: calc(0.2vw + 0.2vh);
+}
+
+.media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(153, 231, 255, 0.384);
+    width: 0%;
+    transition: 200ms;
+    z-index: 0;
+}
+
+.media:hover::after {
+    width: 100%;
+}
