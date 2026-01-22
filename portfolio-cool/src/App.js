@@ -1,5 +1,4 @@
 import logo from './logo.svg';
-import './App.css';
 import {
   HashRouter as Router,
   Switch,
@@ -12,16 +11,17 @@ import { FrontPage } from './pages/frontpage';
 
 
 function App() {
-  return (
+  return ( <>
+      
     <div className="App">
       <Router>
         <Routes>
-        <Route path='/' element={<FrontPage></FrontPage>}>
-        </Route>
+          <Route path='/' element={<FrontPage></FrontPage>}>
+          </Route>
         </Routes>
       </Router>
     </div>
-  );
+  </>);
 }
 
 export default App;
