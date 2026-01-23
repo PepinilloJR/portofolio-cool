@@ -6,25 +6,6 @@
     color: white;
 }
 
-.picture {
-    display: flex;
-    justify-content: center;
-    grid-column: 1;
-    grid-row: 1;
-    width: 100%;
-    height: 100%;
-    border-radius: 360px;
-
-}
-
-img {
-    width: calc(15vw + 15vh);
-    height: calc(15vw + 15vh);
-    border-radius: calc(10vw + 10vh);
-    object-fit: cover;
-    object-position: center;
-}
-
 .subtitleAboutMe {
     color: rgb(235, 235, 235);
     text-align: right;

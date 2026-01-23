@@ -20,7 +20,8 @@
 .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-
+    row-gap: calc(5vw + 5vh);
+    column-gap: calc(5vw + 5vh);
     margin: 5%;
     width: 90%;
     height: 90%;
