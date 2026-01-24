@@ -42,7 +42,7 @@ export function FrontPage() {
         const totalY = y + height
 
 
-        const pos = { x: viewPortX - width, y: viewPortY - height }
+        const pos = { x: viewPortX - width, y: viewPortY - height}
 
         if (totalX < viewPortX) {
             pos.x = x
@@ -56,6 +56,35 @@ export function FrontPage() {
             collitions?.push("floor")
         }
 
+        if (totalY < window.scrollY) {
+            collitions?.push("roof")
+            pos.y = pos.y + height
+        }
+
+        // get all elements that may collide 
+
+        document.querySelectorAll(".floor").forEach(e => {
+            const rect = e.getBoundingClientRect()
+
+            const cPosX = rect.x + window.scrollX
+            const cPosY = rect.y + window.scrollY
+            const cHeight = rect.height - window.scrollY
+            const cWidth = rect.width - window.scrollX
+
+            if (
+                pos.y + height > cPosY &&
+                pos.y + height < cPosY + 10 &&
+                pos.x + width > cPosX &&
+                pos.x < cPosX + cWidth
+            
+            ) {
+                collitions?.push("floor")
+                pos.y = cPosY - height
+            }
+            
+        })
+        console.log(pos)
+        console.log(window.scrollY)
         position.current = pos
         rufusRef.current.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`
     }
@@ -106,11 +135,11 @@ export function FrontPage() {
         }}>
             <div onMouseMove={mouseMovedHandler} onMouseUp={() => {
                 dragged.current = false
-            }} className='titleContainer'>
+            }} className='titleContainer floor'>
                 <Rufus></Rufus>
-                <h1 className="title">Welcome to my portfolio!</h1>
+                <h1 className="title floor">Welcome to my portfolio!</h1>
 
-                <h2 className="subtitle">Here you will find some of my projects and other stuff...</h2>
+                <h2 className="subtitle floor">Here you will find some of my projects and other stuff...</h2>
 
 
                 <div className='container'>

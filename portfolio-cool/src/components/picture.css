@@ -10,7 +10,7 @@
 
 }
 
-img {
+.img {
     width: calc(15vw + 15vh);
     height: calc(15vw + 15vh);
     border-radius: calc(10vw + 10vh);

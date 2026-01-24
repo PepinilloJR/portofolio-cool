@@ -10,7 +10,7 @@
     color: rgb(235, 235, 235);
     text-wrap-mode: nowrap;
     font-size: calc(2vh + 2vw);
-    width: calc(20vh + 20vw);
+    width: fit-content;
     height: calc(5vh + 2vw);
     align-self: flex-start;
     left: calc(5vh + 2vw);
@@ -20,9 +20,10 @@
 .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    row-gap: calc(5vw + 5vh);
+    row-gap: calc(2vw + 2vh);
     column-gap: calc(5vw + 5vh);
     margin: 5%;
+    margin-top: 0%;
     width: 90%;
     height: 90%;
 }
