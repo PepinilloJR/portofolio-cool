@@ -2,9 +2,26 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100px;
-    height: 100px;
-    background-color: blue;
+    width: calc(6vh + 6vw);
+    height: calc(6vh + 6vw);;
+    background-color: rgba(255, 255, 255, 0);
     user-select: none;
     z-index: 100;
+}
+
+.backgroundCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(6vh + 6vw);
+    height: calc(6vh + 6vw);;
+    background-color: rgba(255, 255, 255, 0);
+    user-select: none;
+    z-index: 99;
+}
+
+.rufusWrapper {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
 }

@@ -23,11 +23,12 @@ export function FrontPage() {
 
         const x = e.clientX
         const y = e.clientY
-
-        const offsetX = rufusRef.current.posFix.x - window.scrollX
-        const offsetY = rufusRef.current.posFix.y - window.scrollY
-
-        translateRufusFixed(x - offsetX, y - offsetY)
+         const { width } = rufusRef.current.getBoundingClientRect()
+        //const offsetX = rufusRef.current.posFix.x - window.scrollX
+        //const offsetY = rufusRef.current.posFix.y - window.scrollY
+        const offsetY =  window.scrollY
+        const offsetX = width / 2
+        translateRufusFixed(x - offsetX, y + offsetY)
 
     }
 

@@ -1,0 +1,44 @@
+[
+    {
+        "title": "PC Remote Controller",
+        "subtitle": "A straightforward multi-OS application to control your PC like you would do with a TV",
+        "content": "This is a current project of mine, born out of the need for an app that did exactly what I needed. It basically allows you to use your phone as if it was a remote controller for a tv.",
+        "image": "remotecontroller.jpg",
+        "url": "https://github.com/PepinilloJR/pc-remote-controller"
+    },
+    {
+        "title": "Generic Chat Website",
+        "subtitle": "My very first functional chat app built with React and Express",
+        "content": "An easy-to-use React-powered application that functions as a very basic anonymous chat. The backend runs on a free-tier Render server, while the frontend is available through GitHub Pages.",
+        "image": "reactChat.png"
+        , "url": "https://pepinillojr.github.io/simple-react-powered-chat/"
+    },
+    {
+        "title": "CMD Chat",
+        "subtitle": "Yet another chat application, this time running on your machine using CMD",
+        "content": "A somewhat clunky program that runs in the Windows terminal, that lets you host and join chat servers. You can use either a dedicated server or a VPN. It's mainly a learning project.",
+        "image": "chatCMD.PNG",
+        "url": "https://github.com/PepinilloJR/terminal-based-chat"
+    },{
+        "title": "Online Cowboys game",
+        "subtitle": "A very simple multiplayer game about cowboys shooting other cowboys",
+        "content": "This one also runs on the Windows terminal. You can host and join multiplayer games where players shoot each other. You can use either a dedicated server or a VPN. It's Also a mainly learning project.",
+        "image": "Cowboys.PNG",
+        "url": "https://github.com/PepinilloJR/CowboyGame"
+    },
+    {
+        "title": "Excel Parser & Manager",
+        "subtitle": "A frontend I built for my university during a scholarship to manage late registrations from students.",
+        "content": "The system is very easy to use, although the backend is not available, so it must be recreated if intended for use. All the explanations are in the GitHub repository, but basically, it takes a spreadsheet file, parses it into objects that are manipulated in the GUI, and finally allows exporting a spreadsheet with the results, this functionality can be adapted for many other purposes."
+        ,"image": "excelParser.png", 
+        "url": "https://github.com/PepinilloJR/front-inscripciones"
+
+    },
+    {
+        "title": "Old Portfolio",
+        "subtitle": "My first portfolio, i think it looks \"cool\" so check it out",
+        "content": "There’s not much else to add. It features Rover and is hosted on GitHub Pages.",
+        "image": "oldPortfolio.png",
+        "url": "https://pepinillojr.github.io/Portafolio-Pepinillo/#/"
+    }
+]

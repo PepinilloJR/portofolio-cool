@@ -1,8 +1,27 @@
 .title {
-    color: rgb(133, 255, 255);
-    width: calc(20vh + 20vw);
-    height: calc(5vh + 2vw);
-    font-size: calc(2vh + 2vw);
+
+    background: linear-gradient(#eee, #159599);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: fit-content;
+    height: fit-content;
+    font-size: calc(3vh + 3vw);
+    animation: titleAnimation 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes titleAnimation {
+    0% {
+        letter-spacing: calc(0.1vw + 0.1vh);
+        opacity: 0%;
+    }
+
+    100% {
+        letter-spacing: calc(0.15vw + 0.15vh);
+        opacity: 100%;
+    }
+
 }
 
 .subtitle {
@@ -14,15 +33,18 @@
     height: calc(5vh + 2vw);
     align-self: flex-start;
     left: calc(5vh + 2vw);
+    animation: titleAnimation 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
 }
 
 
 .container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: calc(2vw + 2vh);
+    grid-template-columns: repeat(2, 40%);
+    grid-template-rows: fit-content;
+    row-gap: calc(1vw + 1vh);
     column-gap: calc(5vw + 5vh);
-    margin: 5%;
     margin-top: 0%;
     width: 90%;
     height: 90%;
