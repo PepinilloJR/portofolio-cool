@@ -10,9 +10,7 @@ root.render(<>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=''></link>
     <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet"></link>
   </head>
-  <React.StrictMode>
     <App />
-  </React.StrictMode>
 </>
 );
 

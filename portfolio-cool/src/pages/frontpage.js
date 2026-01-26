@@ -12,6 +12,7 @@ export function FrontPage() {
     const dragged = useRef(false);
     const rufusActive = useRef(false)
     const position = useRef({ x: 50, y: 50 })
+    const velocity = useRef(0);
     const rufusRef = useRef()
 
     const mouseMovedHandler = (e) => {
@@ -26,40 +27,34 @@ export function FrontPage() {
         const offsetX = rufusRef.current.posFix.x - window.scrollX
         const offsetY = rufusRef.current.posFix.y - window.scrollY
 
-        translateRufus(x - offsetX, y - offsetY)
+        translateRufusFixed(x - offsetX, y - offsetY)
 
     }
 
+    const collitionHandler = (x, y, collitions) => {
 
-    const translateRufus = (x, y, collitions) => {
         const viewPortX = window.innerWidth + window.scrollX
         const viewPortY = window.innerHeight + window.scrollY
-
 
         const { width, height } = rufusRef.current.getBoundingClientRect()
 
         const totalX = x + width
         const totalY = y + height
 
+        const pos = { x: x, y: y }
 
-        const pos = { x: viewPortX - width, y: viewPortY - height}
-
-        if (totalX < viewPortX) {
-            pos.x = x
-        } else {
-            collitions?.push("wall")
+        if (totalX > viewPortX || pos.x < 0) {
+            collitions?.push({ type: "wall", data: null })
         }
 
-        if (totalY < viewPortY) {
-            pos.y = y
-        } else {
-            collitions?.push("floor")
+        if (totalY > viewPortY) {
+            collitions?.push({ type: "floor", data: null })
         }
 
         if (totalY < window.scrollY) {
-            collitions?.push("roof")
-            pos.y = pos.y + height
+            collitions?.push({ type: "roof", data: null })
         }
+
 
         // get all elements that may collide 
 
@@ -76,49 +71,96 @@ export function FrontPage() {
                 pos.y + height < cPosY + 10 &&
                 pos.x + width > cPosX &&
                 pos.x < cPosX + cWidth
-            
+
             ) {
-                collitions?.push("floor")
-                pos.y = cPosY - height
+                collitions?.push({ type: "floorComponent", data: e })
             }
-            
+
         })
-        console.log(pos)
-        console.log(window.scrollY)
+
+    }
+
+    const translationHandler = (x, y, tentativePositionY, collitions) => {
+
+
+        const viewPortY = window.innerHeight + window.scrollY
+        const viewPortX = window.innerWidth + window.scrollX
+
+        const { width, height } = rufusRef.current.getBoundingClientRect()
+
+        const pos = { x: x, y: y }
+
+        let priority = 0;
+        collitions?.forEach(c => {
+            if (c.type === "floor") {
+                tentativePositionY = 0;
+                velocity.current = 0
+                pos.y = viewPortY - height
+                priority = 2
+            } else if (c.type === "wall") {
+                if (pos.x < 0) {
+                    pos.x = 0
+                } else if (pos.x > 0){
+                    pos.x = viewPortX - width
+                }
+
+            } else if (c.type === "roof" && priority < 2) {
+                tentativePositionY = 0
+                console.log("toque el techo")
+                pos.y = pos.y + height
+                console.log(pos.y)
+                priority = 1
+
+            } else if (c.type === "floorComponent" && priority < 1) {
+                const rect = c.data.getBoundingClientRect()
+                const cPosY = rect.y + window.scrollY
+                velocity.current = 0
+                tentativePositionY = 0
+                pos.y = cPosY - height
+                priority = 0
+            }
+        })
+
+        if (collitions?.length === 0) {
+            pos.y = tentativePositionY
+        }
+
+        translateRufusFixed(pos.x, pos.y)
+    }
+
+    const translateRufusFixed = (x, y) => {
+        const pos = { x: x, y: y }
         position.current = pos
         rufusRef.current.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`
     }
 
     useEffect(() => {
         var lastTime = performance.now()
-        let yV = 1;
-        //{itCollided: false, type: ""}
+        let tentativePosition = 0
         let collitions = []
-        
-
         const fall = () => {
             const now = performance.now()
-            console.log(dragged.current)
+
             const dt = (now - lastTime) / 1000
             lastTime = now
 
-            const y = yV * dt;
-            yV += 5
             if (!dragged.current && rufusActive.current) {
-                translateRufus(position.current.x, position.current.y + y, collitions)
+                velocity.current += 5 * dt
             } else {
-                yV = 1;
+                velocity.current = 0
             }
 
-            collitions.forEach(c => {
-                if (c == "floor") {
-                    yV = 0;
-                }
-            })
+            tentativePosition = position.current.y + velocity.current
+
+            if (rufusActive.current){
+                collitionHandler(position.current.x, tentativePosition, collitions)
+                translationHandler(position.current.x, position.current.y, tentativePosition, collitions)
+            }
 
             collitions = []
 
             requestAnimationFrame(fall)
+
         }
 
         fall()
@@ -127,11 +169,12 @@ export function FrontPage() {
 
     return <>
         <frontPageContext.Provider value={{
-            translateRufus,
+            translationHandler,
             dragged,
             rufusActive,
             rufusRef,
-            position
+            position,
+            velocity
         }}>
             <div onMouseMove={mouseMovedHandler} onMouseUp={() => {
                 dragged.current = false
