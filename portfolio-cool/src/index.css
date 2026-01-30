@@ -3,7 +3,7 @@ body {
   font-family: "Jockey One", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #1f1f1f;
+  background: linear-gradient(180deg, #17161d 0%, #181818 100%);
 }
 
 

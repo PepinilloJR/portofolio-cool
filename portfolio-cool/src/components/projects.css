@@ -55,7 +55,7 @@
 
 .titleProjects::before {
     content: '';
-    border-bottom: calc(1vw + 1vh) solid #85f7ff4f;
+    border-bottom: calc(1vw + 1vh) solid #00eeff8f;
     width: calc(12vh + 12vw);
     display: block;
     margin: 0 auto;

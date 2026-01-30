@@ -33,6 +33,7 @@
     height: calc(5vh + 2vw);
     align-self: flex-start;
     left: calc(5vh + 2vw);
+    margin: calc(0.5vw + 0.5vh);
     animation: titleAnimation 1s;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
@@ -52,6 +53,7 @@
 
 .titleContainer {
     width: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;

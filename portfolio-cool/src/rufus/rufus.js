@@ -82,8 +82,9 @@ export function Rufus() {
             }
             context.drawImage(sprites.current[Math.round(time.current) + 3], 0, 0)
 
-
-            bgCanvas.current.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`
+            if (rufusActive.current) {
+                bgCanvas.current.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`
+            }
             requestAnimationFrame(animateBg)
         }
 animateBg()

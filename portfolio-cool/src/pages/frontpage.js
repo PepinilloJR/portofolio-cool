@@ -5,6 +5,7 @@ import { Rufus } from '../rufus/rufus'
 import './frontpage.css'
 import { frontPageContext } from '../context/context'
 import { Picture } from '../components/picture'
+import { SkillSet } from '../components/skillset'
 
 export function FrontPage() {
     //const frontContext = useContext(frontPageContext)
@@ -187,12 +188,18 @@ export function FrontPage() {
 
 
                 <div className='container'>
-                    <Picture></Picture>
+                    <SkillSet></SkillSet>
                     <AboutMe></AboutMe>
                     <ProjectDisplay></ProjectDisplay>
                 </div>
 
+                <div className='rufusDoor'>
+                    rufus chamber
+                </div>
             </div>
+
         </frontPageContext.Provider>
     </>
 }   
+
+                    //<Picture></Picture>
