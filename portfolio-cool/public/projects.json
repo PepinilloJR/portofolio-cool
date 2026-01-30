@@ -9,7 +9,7 @@
     {
         "title": "Generic Chat Website",
         "subtitle": "My very first functional chat app built with React and Express",
-        "content": "An easy-to-use React-powered application that functions as a very basic anonymous chat. The backend runs on a free-tier Render server, while the frontend is available through GitHub Pages.",
+        "content": "An easy-to-use React-powered application that functions as a very basic anonymous chat. The backend runs on a free-tier Render server (so be patient with loading times), while the frontend is available through GitHub Pages.",
         "image": "reactChat.png"
         , "url": "https://pepinillojr.github.io/simple-react-powered-chat/"
     },

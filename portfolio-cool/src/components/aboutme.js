@@ -21,19 +21,20 @@ export function AboutMe() {
     return <>
         <div className="displayAboutMe">
             <h2 className='subtitleAboutMe floor'>About me</h2>
-            <p className='parrafoAboutMe floor'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p className='parrafoAboutMe floor'>I am a software developer and software engineering student from Argentina, always up for learning and trying new things. I love to start new projects in my free time, although I am more invested in backend, networking, or game development.
+            </p>
 
             <div ref={socialTarget} className='social'>
-                <a className='media floor'>
+                <a href='https://github.com/PepinilloJR' target='_blank' className='media floor'>
                     <FaGithub></FaGithub>
                 </a>
-                <a className='media floor'>
+                <a href='https://www.instagram.com/fran_gonzo2/' target='_blank' className='media floor'>
                     <FaSquareInstagram></FaSquareInstagram>
                 </a>
-                <a className='media floor'>
+                <a href='http://t.me/PepinilloJR' target='_blank' className='media floor'>
                     <FaTelegram></FaTelegram>
                 </a>
-                <a className='media floor'>
+                <a href='https://www.linkedin.com/in/francisco-monasterolo-16926822a/' target='_blank' className='media floor'>
                     <FaLinkedin></FaLinkedin>
                 </a>
             </div>

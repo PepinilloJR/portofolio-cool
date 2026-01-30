@@ -106,6 +106,7 @@
     display: flex;
     width: auto;
     align-items: center;
+    color: #00eeff;
     background-color: rgba(153, 231, 255, 0);
     justify-content: space-evenly;
     padding: calc(0.2vw + 0.2vh);

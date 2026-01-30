@@ -6,6 +6,7 @@ import './frontpage.css'
 import { frontPageContext } from '../context/context'
 import { Picture } from '../components/picture'
 import { SkillSet } from '../components/skillset'
+import { Terminal } from '../components/terminal'
 
 export function FrontPage() {
     //const frontContext = useContext(frontPageContext)
@@ -196,6 +197,8 @@ export function FrontPage() {
                 <div className='rufusDoor'>
                     rufus chamber
                 </div>
+
+                <Terminal></Terminal>
             </div>
 
         </frontPageContext.Provider>
