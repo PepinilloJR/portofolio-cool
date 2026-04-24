@@ -7,10 +7,12 @@ import { frontPageContext } from '../context/context'
 import { Picture } from '../components/picture'
 import { SkillSet } from '../components/skillset'
 import { Terminal } from '../components/terminal'
+import { IoTerminal } from "react-icons/io5";
 
 export function FrontPage() {
     //const frontContext = useContext(frontPageContext)
     //const [dragged, setDragged] = useState(false)
+    const [terminalOpen, setTerminalOpen] = useState(false)
     const dragged = useRef(false);
     const rufusActive = useRef(false)
     const position = useRef({ x: 50, y: 50 })
@@ -192,13 +194,17 @@ export function FrontPage() {
                     <SkillSet></SkillSet>
                     <AboutMe></AboutMe>
                     <ProjectDisplay></ProjectDisplay>
+
                 </div>
 
-                <div className='rufusDoor'>
-                    rufus chamber
+                <div onClick={() => {
+                    setTerminalOpen(!terminalOpen)}
+                } className={terminalOpen ? 'terminalButtonOn' : 'terminalButtonOff'}>
+                    <IoTerminal className='terminalIcon'></IoTerminal>
                 </div>
 
-                <Terminal></Terminal>
+                {terminalOpen ? <Terminal></Terminal> : <></> }
+               
             </div>
 
         </frontPageContext.Provider>
