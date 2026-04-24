@@ -49,7 +49,7 @@ export function ProjectDisplay() {
 
 
     return <>
-        <div className="display">
+        <div id='Projects' className="display">
 
 
 

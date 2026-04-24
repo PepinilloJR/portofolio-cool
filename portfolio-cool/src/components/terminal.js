@@ -1,11 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import './terminal.css'
 import { AiOutlineException } from 'react-icons/ai'
+import { useNavigate } from 'react-router'
+import { type } from '@testing-library/user-event/dist/type'
 
 export function Terminal() {
 
+    // how should paths work?
+    // well, for instance, scanning the document for IDs should give a basic guide of the structure of the page
+    // from the body, we can consider every instant child with an id as a directory, and from that child the same is applied
+    // this way it can be made automatically
+    // this requieres remaking some stuff
 
-    const path = useRef("~")
+    const [path, setPath] = useState("~")
 
     const [messages, setMessages] = useState([])
     const [currentMessage, setCurrentMessage] = useState("")
@@ -14,12 +21,14 @@ export function Terminal() {
 
     const processMessage = (message) => {
         const list = [...messages]
-        list.push({ prefix: `guest@cool-portfolio:${path.current}$`, message: message, type: "message" })
+        list.push({ prefix: `guest@cool-portfolio:${path}$`, message: message, type: "message" })
 
         setMessages(list)
 
         try {
-            commands({ messagesSetter: setMessages, message: message, inputList: list, path: path })()
+            const parameters = parametersExtractor(message)
+                console.log("parametros: ", parameters)
+            Commands({ messagesSetter: setMessages, message: message, inputList: list, pathSetter: setPath })(parameters)
         } catch (e) {
             console.log(e)
             list.push({ prefix: "", message: `command not found: ` + message, type: "error" })
@@ -52,7 +61,7 @@ export function Terminal() {
             })
         }}>
             <label className='terminalLine' htmlFor="terminalInput">
-                <TerminalMessage prefix={`guest@cool-portfolio:${path.current}$`} content={currentMessage} type={"input"}> </TerminalMessage>
+                <TerminalMessage prefix={`guest@cool-portfolio:${path}$`} content={currentMessage} type={"input"}> </TerminalMessage>
             </label>
             <input autoComplete='off' onChange={(e) => {
                 console.log("keydown", e.key)
@@ -69,7 +78,7 @@ export function Terminal() {
 
 function TerminalMessage({ prefix, content, type }) {
 
-    const lettersLimit = 60
+    const lettersLimit = 68
     const message = prefix + content
 
     const difference = lettersLimit - message.length
@@ -95,19 +104,46 @@ function TerminalMessage({ prefix, content, type }) {
 
 }
 
-function commands({ messagesSetter, message, inputList, path }) {
-
+function Commands({ messagesSetter, message, inputList, pathSetter}) {
+    const command = message.split(" ")[0]
     const execution = {
         clear: () => {
             messagesSetter([])
         },
         ls: () => {
             messagesSetter([...inputList,
-            { message: "/Proyectos /SobreMi" }
+            { message: "/Projects /AboutMe" }
             ])
+        },
+        cd: (parameters) => {
+            
+            try {
+
+           
+                const section = document.getElementById(parameters.p1)
+                section.scrollIntoView({behavior: "smooth"})
+                pathSetter(parameters.p1)
+            } catch (e) {
+                messagesSetter([...inputList,
+                { message: "no such file or directory: " + parameters.p1, type: "error" } // p1 should be the path
+                ])
+            }
         }
     }
 
 
-    return execution[message]
+    return execution[command]
+}
+
+
+function parametersExtractor(message) {
+    const inputs = message.split(" ")
+    var parameters = {}
+    inputs.forEach((element, index) => {
+        if (!(index === 0)) {
+            parameters["p"+index] = element
+        } 
+    });
+
+    return parameters
 }

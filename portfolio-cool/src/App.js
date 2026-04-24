@@ -13,7 +13,7 @@ import { FrontPage } from './pages/frontpage';
 function App() {
   return ( <>
       
-    <div className="App">
+    <div id='~' className="App">
       <Router>
         <Routes>
           <Route path='/' element={<FrontPage></FrontPage>}>
