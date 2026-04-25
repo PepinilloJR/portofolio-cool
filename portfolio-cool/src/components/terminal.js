@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './terminal.css'
 import { AiOutlineException } from 'react-icons/ai'
-import { useNavigate } from 'react-router'
+import { matchPath, useNavigate } from 'react-router'
 import { type } from '@testing-library/user-event/dist/type'
 import { DirectoryTree } from '../utils'
 
@@ -13,27 +13,31 @@ export function Terminal() {
     // this way it can be made automatically
     // this requieres remaking some stuff
 
-    const [path, setPath] = useState("~")
+    const [path, setPath] = useState()
+    const [directories, setDirectories] = useState()
 
     const [messages, setMessages] = useState([])
     const [currentMessage, setCurrentMessage] = useState("")
 
     const terminal = useRef()
 
-    useEffect(() => { const directories = directoriesBuilder()
-        console.log(directories)
-     }, [])
+    useEffect(() => {
+        const d = directoriesBuilder()
+        setDirectories(d)
+        setPath(d)
+        console.log(d.directoryName)
+    }, [])
 
     const processMessage = (message) => {
         const list = [...messages]
-        list.push({ prefix: `guest@cool-portfolio:${path}$`, message: message, type: "message" })
+        list.push({ prefix: `guest@cool-portfolio:${path.directoryName}$`, message: message, type: "message" })
 
         setMessages(list)
 
         try {
             const parameters = parametersExtractor(message)
             console.log("parametros: ", parameters)
-            Commands({ messagesSetter: setMessages, message: message, inputList: list, pathSetter: setPath })(parameters)
+            Commands({ messagesSetter: setMessages, message: message, inputList: list, path: path, pathSetter: setPath })(parameters)
         } catch (e) {
             console.log(e)
             list.push({ prefix: "", message: `command not found: ` + message, type: "error" })
@@ -66,7 +70,7 @@ export function Terminal() {
             })
         }}>
             <label className='terminalLine' htmlFor="terminalInput">
-                <TerminalMessage prefix={`guest@cool-portfolio:${path}$`} content={currentMessage} type={"input"}> </TerminalMessage>
+                <TerminalMessage prefix={`guest@cool-portfolio:${path?.directoryName}$`} content={currentMessage} type={"input"}> </TerminalMessage>
             </label>
             <input autoComplete='off' onChange={(e) => {
                 console.log("keydown", e.key)
@@ -109,7 +113,7 @@ function TerminalMessage({ prefix, content, type }) {
 
 }
 
-function Commands({ messagesSetter, message, inputList, pathSetter }) {
+function Commands({ messagesSetter, message, inputList, path, pathSetter }) {
     const command = message.split(" ")[0]
     const execution = {
         clear: () => {
@@ -124,10 +128,26 @@ function Commands({ messagesSetter, message, inputList, pathSetter }) {
 
             try {
 
+                if (!(parameters.p1 === "..")) {
 
-                const section = document.getElementById(parameters.p1)
-                section.scrollIntoView({ behavior: "smooth" })
-                pathSetter(parameters.p1)
+                    const match = path.children.find(tree => {
+                        return tree.directoryName === parameters.p1
+                    })
+                    const section = match.directory
+                    section.scrollIntoView({ behavior: "smooth" })
+                    pathSetter(match)
+                }
+
+                else if (path.father) {
+                    const section = path.father.directory
+                    section.scrollIntoView({ behavior: "smooth" })
+                    pathSetter(path.father)
+                } else {
+                    messagesSetter([...inputList,
+                    { message: "forbidden directory: " + parameters.p1, type: "error" } // p1 should be the path
+                    ])
+                }
+
             } catch (e) {
                 messagesSetter([...inputList,
                 { message: "no such file or directory: " + parameters.p1, type: "error" } // p1 should be the path
@@ -157,17 +177,16 @@ function parametersExtractor(message) {
 function directoriesBuilder(element, tree) {
     let firstTree;
     if (!tree) {
-        firstTree = new DirectoryTree(null, null, [])
+        firstTree = new DirectoryTree(null, document.getElementById("~"), [])
     }
 
     // the root directory should have a ~ id
     if (!element) {
-        const root = document.getElementById("~")
-        
-        firstTree.directory = root;
+        const root = firstTree.directory
+
         for (let i = 0; i < root.children.length; i++) {
             const child = root.children.item(i)
-            
+
             if (!child.id.includes("Directory")) {
                 directoriesBuilder(child, firstTree)
                 continue

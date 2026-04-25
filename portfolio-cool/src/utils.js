@@ -1,9 +1,10 @@
 export class DirectoryTree {
 
-    constructor(father, directory, children) {
+    constructor(father, directory_, children) {
         this.father = father;
-        this.directory = directory;
+        this.directory = directory_;
         this.children = children // this 
+        this.directoryName = directory_?.id.split(" ")[0]
     }
 
     assingChildren(child) {
