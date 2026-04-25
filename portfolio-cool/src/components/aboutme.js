@@ -19,7 +19,7 @@ export function AboutMe() {
 
 
     return <>
-        <div id='AboutMe' className="displayAboutMe">
+        <div id='AboutMe Directory' className="displayAboutMe">
             <h2 className='subtitleAboutMe floor'>About me</h2>
             <p className='parrafoAboutMe floor'>I am a software developer and software engineering student from Argentina, always up for learning and trying new things. I love to start new projects in my free time, although I am more invested in backend, networking, or game development.
             </p>

@@ -3,6 +3,7 @@ import './terminal.css'
 import { AiOutlineException } from 'react-icons/ai'
 import { useNavigate } from 'react-router'
 import { type } from '@testing-library/user-event/dist/type'
+import { DirectoryTree } from '../utils'
 
 export function Terminal() {
 
@@ -19,6 +20,10 @@ export function Terminal() {
 
     const terminal = useRef()
 
+    useEffect(() => { const directories = directoriesBuilder()
+        console.log(directories)
+     }, [])
+
     const processMessage = (message) => {
         const list = [...messages]
         list.push({ prefix: `guest@cool-portfolio:${path}$`, message: message, type: "message" })
@@ -27,7 +32,7 @@ export function Terminal() {
 
         try {
             const parameters = parametersExtractor(message)
-                console.log("parametros: ", parameters)
+            console.log("parametros: ", parameters)
             Commands({ messagesSetter: setMessages, message: message, inputList: list, pathSetter: setPath })(parameters)
         } catch (e) {
             console.log(e)
@@ -104,7 +109,7 @@ function TerminalMessage({ prefix, content, type }) {
 
 }
 
-function Commands({ messagesSetter, message, inputList, pathSetter}) {
+function Commands({ messagesSetter, message, inputList, pathSetter }) {
     const command = message.split(" ")[0]
     const execution = {
         clear: () => {
@@ -116,12 +121,12 @@ function Commands({ messagesSetter, message, inputList, pathSetter}) {
             ])
         },
         cd: (parameters) => {
-            
+
             try {
 
-           
+
                 const section = document.getElementById(parameters.p1)
-                section.scrollIntoView({behavior: "smooth"})
+                section.scrollIntoView({ behavior: "smooth" })
                 pathSetter(parameters.p1)
             } catch (e) {
                 messagesSetter([...inputList,
@@ -141,9 +146,47 @@ function parametersExtractor(message) {
     var parameters = {}
     inputs.forEach((element, index) => {
         if (!(index === 0)) {
-            parameters["p"+index] = element
-        } 
+            parameters["p" + index] = element
+        }
     });
 
     return parameters
+}
+
+
+function directoriesBuilder(element, tree) {
+    let firstTree;
+    if (!tree) {
+        firstTree = new DirectoryTree(null, null, [])
+    }
+
+    // the root directory should have a ~ id
+    if (!element) {
+        const root = document.getElementById("~")
+        
+        firstTree.directory = root;
+        for (let i = 0; i < root.children.length; i++) {
+            const child = root.children.item(i)
+            
+            if (!child.id.includes("Directory")) {
+                directoriesBuilder(child, firstTree)
+                continue
+            }
+            const children = firstTree.assingChildren(child)
+            directoriesBuilder(child, children)
+        }
+    }
+    else {
+        for (let i = 0; i < element.children.length; i++) {
+            const child = element.children.item(i)
+            if (!child.id.includes("Directory")) {
+                directoriesBuilder(child, tree)
+                continue
+            }
+            const children = tree.assingChildren(child)
+            directoriesBuilder(child, children)
+        }
+    }
+
+    return firstTree;
 }
