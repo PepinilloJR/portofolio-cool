@@ -13,4 +13,20 @@ export class DirectoryTree {
         return children
     }
 
+
+    getAbsolutePath(path) {
+        let path_;
+        if (path) {
+            path_ = this.directoryName + "/" + path
+        }else {
+            path_ = this.directoryName
+        }
+        
+        if (!this.father) {
+            return path_
+        }
+
+        return this.father.getAbsolutePath(path_)
+    }
+
 }

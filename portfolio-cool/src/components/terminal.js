@@ -30,7 +30,7 @@ export function Terminal() {
 
     const processMessage = (message) => {
         const list = [...messages]
-        list.push({ prefix: `guest@cool-portfolio:${path.directoryName}$`, message: message, type: "message" })
+        list.push({ prefix: `guest@cool-portfolio:${path.getAbsolutePath()}$`, message: message, type: "message" })
 
         setMessages(list)
 
@@ -70,7 +70,7 @@ export function Terminal() {
             })
         }}>
             <label className='terminalLine' htmlFor="terminalInput">
-                <TerminalMessage prefix={`guest@cool-portfolio:${path?.directoryName}$`} content={currentMessage} type={"input"}> </TerminalMessage>
+                <TerminalMessage prefix={`guest@cool-portfolio:${path?.getAbsolutePath()}$`} content={currentMessage} type={"input"}> </TerminalMessage>
             </label>
             <input autoComplete='off' onChange={(e) => {
                 console.log("keydown", e.key)
@@ -120,8 +120,11 @@ function Commands({ messagesSetter, message, inputList, path, pathSetter }) {
             messagesSetter([])
         },
         ls: () => {
+
+            const directories = path.children.map(d => { return "/"+d.directoryName})
+
             messagesSetter([...inputList,
-            { message: "/Projects /AboutMe" }
+            { message: directories.toString().replaceAll(",", " ") }
             ])
         },
         cd: (parameters) => {

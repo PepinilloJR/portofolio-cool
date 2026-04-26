@@ -94,7 +94,7 @@ function Project({ type, content, title, subtitle, image, url }) {
         observer.observe(observerTarget.current)
     }, []) 
 
-    return <div ref={project} className='projectContainer'>
+    return <div id={title.replace(" ", "") + " " + "Directory"} ref={project} className='projectContainer'>
         <a target="_blank" href={url} className='project findout' style={{ gridColumn: type === 1 ? 2 : 1, gridRow: 1 }} >
             <h1 className='projectTitle floor' >{title}</h1>
             <h2 className='projectSubtitle floor'>{subtitle}</h2>
