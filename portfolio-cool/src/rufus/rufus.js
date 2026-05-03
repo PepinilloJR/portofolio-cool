@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import "./rufus.css"
-import { frontPageContext } from "../context/context"
+import { frontPageContext, rufusContext } from "../context/context"
 
 export function Rufus() {
 
     //const [dragged, setDragged] = useState(false)
-    const { rufusRef, dragged, position, velocity, rufusActive } = useContext(frontPageContext)
+    const { terminalBuffer } = useContext(frontPageContext)
+    const { rufusRef, dragged, position, velocity, rufusActive } = useContext(rufusContext)
     const [spritesLoaded, setSpritesLoaded] = useState(false)
     //const rufusRef = useRef()
 
@@ -46,6 +47,14 @@ export function Rufus() {
         bgAnimationHandler()
     }, [spritesLoaded])
 
+
+    useEffect(() => {
+        if (terminalBuffer?.find(message => message?.message?.includes("cat"))) {
+
+            rufusActive.current = true
+        }
+        console.log(terminalBuffer)
+    },[terminalBuffer])
 
     const animationHandler = () => {
         //console.log(rufusRef.current.yV)

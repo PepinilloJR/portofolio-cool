@@ -96,10 +96,10 @@ function Project({ type, content, title, subtitle, image, url }) {
 
     return <div id={title.replace(" ", "") + " " + "Directory"} ref={project} className='projectContainer'>
         <a target="_blank" href={url} className='project findout' style={{ gridColumn: type === 1 ? 2 : 1, gridRow: 1 }} >
-            <h1 className='projectTitle floor' >{title}</h1>
-            <h2 className='projectSubtitle floor'>{subtitle}</h2>
+            <h1 id='title File' title={"title"} className='projectTitle floor' >{title}</h1>
+            <h2 id='subtitle File' title={"subtitle"} className='projectSubtitle floor'>{subtitle}</h2>
 
-            <p ref={observerTarget} className='parrafo floor'>{content}</p>
+            <p id='parrafo File' title='content' ref={observerTarget} className='parrafo floor'>{content}</p>
 
         
         </a>
