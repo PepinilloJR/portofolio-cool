@@ -10,14 +10,9 @@ import { Terminal } from '../components/terminal'
 import { IoTerminal } from "react-icons/io5";
 import { RufusController } from '../rufus/rufusController'
 export function FrontPage() {
-    //const frontContext = useContext(frontPageContext)
-    //const [dragged, setDragged] = useState(false)
+
     const [terminalOpen, setTerminalOpen] = useState(false)
     const [terminalBuffer, setTerminalBuffer] = useState([])
-    
-    //onMouseMove={mouseMovedHandler} onMouseUp={() => {
-             //   dragged.current = false
-            //}}
 
     return <>
         <frontPageContext.Provider value={{
@@ -50,5 +45,3 @@ export function FrontPage() {
         </frontPageContext.Provider>
     </>
 }   
-
-                    //<Picture></Picture>

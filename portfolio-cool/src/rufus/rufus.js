@@ -54,7 +54,7 @@ export function Rufus() {
             rufusActive.current = true
         }
         console.log(terminalBuffer)
-    },[terminalBuffer])
+    }, [terminalBuffer])
 
     const animationHandler = () => {
         //console.log(rufusRef.current.yV)
@@ -96,7 +96,7 @@ export function Rufus() {
             }
             requestAnimationFrame(animateBg)
         }
-animateBg()
+        animateBg()
     }
 
     return <>
