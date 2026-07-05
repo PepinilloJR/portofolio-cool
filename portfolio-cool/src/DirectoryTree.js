@@ -16,7 +16,7 @@ export class DirectoryTree {
 
     assingFile(file) {
         if (!this.files) {
-            this.files = [file]
+            this.files = []
         }
         this.files.push(file)
         return file
@@ -41,7 +41,7 @@ export class DirectoryTree {
 
     static directoriesBuilder(element, tree, depth) {
         console.log(depth)
-        // if the dom
+        
         let depth_ = 0
         if (depth > 1000) { return }
         else { depth_ = depth + 1 }
@@ -65,7 +65,7 @@ export class DirectoryTree {
                     continue
                 }
                 else if (!child.id.includes("Directory")) {
-                    DirectoryTree.directoriesBuilder(child, firstTree)
+                    DirectoryTree.directoriesBuilder(child, firstTree, depth_)
                     continue
                 }
                 const children = firstTree.assingChildren(child)
@@ -76,6 +76,7 @@ export class DirectoryTree {
             for (let i = 0; i < element.children.length; i++) {
                 const child = element.children.item(i)
                 if (child.id.includes("File")) {
+                    console.log("detecte un archivo: " + child.id + "mi padre es: " + tree.directoryName)
                     const file = new TerminalFile(tree, child.title, child.textContent)
                     tree.assingFile(file)
                     continue
@@ -83,6 +84,7 @@ export class DirectoryTree {
                     DirectoryTree.directoriesBuilder(child, tree, depth_)
                     continue
                 }
+                
                 const children = tree.assingChildren(child)
                 DirectoryTree.directoriesBuilder(child, children, depth_)
             }
@@ -99,7 +101,7 @@ export class TerminalFile {
     constructor(father, name, content) {
         this.father = father;
         this.name = name;
-        this.content = content // this 
+        this.content = content 
 
     }
 

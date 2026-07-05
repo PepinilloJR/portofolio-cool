@@ -20,9 +20,9 @@ export function FrontPage() {
         }}>
             <div className='titleContainer floor'>
                 <RufusController></RufusController>
-                <h1 className="title floor">Welcome to my portfolio!</h1>
+                <h1 id='Title File' title='title' className="title floor">Welcome to my portfolio!</h1>
 
-                <h2 className="subtitle floor">Here you will find some of my projects and other stuff...</h2>
+                <h2 id='Subtitle File' title='subtitle' className="subtitle floor">Here you will find some of my projects and other stuff...</h2>
 
 
                 <div className='container'>
