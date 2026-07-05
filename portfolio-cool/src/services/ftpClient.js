@@ -5,24 +5,45 @@ export class FtpCLient {
         this.streamPort = streamPort
     }
 
-    async sendFile(file) {
 
-        try {
-        const request = await fetch(`http://${this.hostname}:${this.streamPort}/post`, {
-            method: "POST",
-            body: file,
-            headers: {
-                "Content-Type": file.type,
-                "Content-Size": `${file.size}`,
-                "Content-Disposition": `attachment; filename=${file.name}`
-            }
-        })
+    chunkFile(file, bufferSize, lastPos) {
+        const fileLength = file.size
 
-        const response = await request.json()
+        var chunk
+        if (fileLength < bufferSize + lastPos) {
+            chunk = file.slice(lastPos, fileLength)
+        } else {
+            chunk = file.slice(lastPos, bufferSize + lastPos)
+        }
 
-        console.log(response)
-    } catch (error) {
-        console.error(error)
+        return chunk
     }
+
+
+    async sendFile(file) {
+        const bufferSize = 1024 * 1024 * 20
+        for (let i = 0; i < file.size; i += bufferSize) {
+
+            const chunk = this.chunkFile(file, bufferSize, i)
+            const buffer = await chunk.arrayBuffer()
+            try {
+                const request = await fetch(`http://${this.hostname}:${this.streamPort}/files`, {
+                    method: "POST",
+                    body: buffer,
+                    headers: {
+                        "Content-Type": "application/octet-stream",
+                        "Content-Size": `${file.size}`,
+                        "Content-Disposition": `attachment; filename=${file.name}`,
+                        "X-Upload-Path": ""
+                    }
+                })
+
+                const response = await request.json()
+
+                console.log(response)
+            } catch (error) {
+                console.error(error)
+            }
+        }
     }
 }

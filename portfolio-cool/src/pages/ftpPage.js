@@ -4,12 +4,13 @@ import { ftpContext } from "../context/context"
 import { FtpCLient, ftpClient } from "../services/ftpClient"
 export function FtpPage() {
 
-    const [file, setFile] = useState() 
+    const [file, setFile] = useState()
 
     useEffect(() => {
-        if (!file) return 
+        if (!file) return
         console.log(file)
-        const ftpClient = new FtpCLient("localhost", "21", "8081")
+        const ftpClient = new FtpCLient("186.13.42.27", "21", "8002")
+        
         ftpClient.sendFile(file)
     }, [file])
 

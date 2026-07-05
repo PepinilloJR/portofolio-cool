@@ -66,6 +66,7 @@
 
 @keyframes socialScrolling {
     0% {
+        
         height: calc(2vw + 2vh);
         display: flex;
         width: 40%;
@@ -104,18 +105,19 @@
 .media {
     position: relative;
     display: flex;
-    width: auto;
+    width: max-content;
     align-items: center;
     color: #00eeff;
+    font-size: inherit;
     background-color: rgba(153, 231, 255, 0);
     justify-content: space-evenly;
     padding: calc(0.2vw + 0.2vh);
-    transition: 200ms;
+    transition: color 200ms;
 }
 
 
 .media:hover {
-    transition: 200ms;
+    transition: color 200ms;
     color: rgb(0, 0, 0)
 }
 

@@ -15,11 +15,17 @@
     border-color: aquamarine;
     border-style: solid;
     padding: calc(1vw + 1vh);
-    overflow: scroll;
+    overflow:scroll;
     scroll-behavior: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     font-size: calc(0.6vw + 0.6vh);
     font-family: 'Courier New', Courier, monospace;
 
+}
+
+.terminalDisplay::-webkit-scrollbar { 
+    display: none;  /* Older Safari and Chromium */
 }
 
 .terminalInputContainer {
