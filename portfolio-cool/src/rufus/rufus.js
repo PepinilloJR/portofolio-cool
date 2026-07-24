@@ -35,6 +35,8 @@ export function Rufus() {
     }, [])
 
     useEffect(() => {
+        const control = { cancel: false }
+
         if (spritesLoaded) {
             const context = rufusRef.current.getContext("2d")
             console.log(sprites.current[0])
@@ -43,8 +45,12 @@ export function Rufus() {
 
 
         }
-        animationHandler()
-        bgAnimationHandler()
+        animationHandler(control)
+        bgAnimationHandler(control)
+
+        return () => {
+            control.cancel = true
+        }
     }, [spritesLoaded])
 
 
@@ -56,8 +62,12 @@ export function Rufus() {
         console.log(terminalBuffer)
     }, [terminalBuffer])
 
-    const animationHandler = () => {
+    const animationHandler = (control) => {
         //console.log(rufusRef.current.yV)
+        let frame
+        if (!control.cancel) {
+
+        
         const context = rufusRef.current.getContext("2d")
         if (dragged.current) {
 
@@ -71,15 +81,20 @@ export function Rufus() {
             context.drawImage(sprites.current[1], 0, 0)
         }
 
-        requestAnimationFrame(animationHandler)
+        frame = requestAnimationFrame(() => {animationHandler(control)})
+        }
+        if (control.cancel) {
+            cancelAnimationFrame(frame)
+        }
+
     }
 
-    const bgAnimationHandler = () => {
+    const bgAnimationHandler = (control) => {
         var lastTime = performance.now()
 
         const context = bgCanvas.current.getContext("2d")
 
-        const animateBg = () => {
+        const animateBg = (control) => {
             const now = performance.now()
             const dt = (now - lastTime) / 1000
             time.current += dt * 5
@@ -94,9 +109,16 @@ export function Rufus() {
             if (rufusActive.current) {
                 bgCanvas.current.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`
             }
-            requestAnimationFrame(animateBg)
+            let frame = requestAnimationFrame(() => {animateBg(control)})
+
+            if (control.cancel) {
+                cancelAnimationFrame(frame)
+            }
         }
-        animateBg()
+
+        if (!control.cancel) {
+            animateBg(control)
+        }
     }
 
     return <>

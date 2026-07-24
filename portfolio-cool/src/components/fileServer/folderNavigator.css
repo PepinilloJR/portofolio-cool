@@ -1,0 +1,28 @@
+.folderNavigatorButtonContainer {
+   width: 55%;    height: auto;
+    background: #00000000;
+    margin: 0;
+}
+
+.folderNavigatorButton{
+    display: flex;
+    justify-content: center;
+    font-size: calc(2vw + 2vh);
+    width: calc(8vw + 8vh);
+    height: auto;
+    background: #1e1e1e;
+    margin: 0;
+    border: none;
+    border-top-right-radius: 50%;
+    border-top-left-radius: 25%;
+}
+
+.folderNavigatorIcon {
+    width: calc(3vw + 3vh);
+    color: aquamarine;
+}
+
+.folderNavigatorIconDisabled {
+    width: calc(3vw + 3vh);
+    color: rgba(27, 21, 21, 0.733);
+}

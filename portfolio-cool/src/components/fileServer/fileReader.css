@@ -1,0 +1,32 @@
+#fileUpload { 
+  opacity: 0%;
+  width: 0%;
+  height: 0%;
+  position: relative;
+}
+
+.fileUploadContainer{
+  display: flex;
+  width: calc(2vw + 2vh);
+  height: calc(2vw + 2vh);
+  color: rgba(245, 245, 245, 0);
+}
+
+.fileUploadIcon {
+  display: flex;
+  width: calc(2vw + 2vh);
+  height: calc(1.8vw + 1.8vh);
+  color: whitesmoke;
+}
+
+
+.fileUploadIcon:hover {
+  color: rgba(61, 240, 240, 0.692);
+}
+
+.fileUploadLabel {
+  display: flex;
+  width: calc(5vw + 5vh);
+  color: whitesmoke;
+
+}

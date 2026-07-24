@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import { FrontPage } from './pages/frontpage';
-import { FtpPage } from './pages/ftpPage';
+import { FileServerPage } from './pages/fileServerPage';
 
 function App() {
   return ( <>
@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path='/' element={<FrontPage></FrontPage>}>
           </Route>
-          <Route path='/ftp' element={<FtpPage></FtpPage>}></Route>
+          <Route path='/ftp' element={<FileServerPage></FileServerPage>}></Route>
         </Routes>
       </Router>
     </div>

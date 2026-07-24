@@ -1,6 +1,6 @@
 import streamSaver from 'streamsaver'
 
-export class FtpCLient {
+export class FileServerCLient {
     constructor(hostname, port) {
         this.hostname = hostname
         this.port = port
@@ -24,32 +24,11 @@ export class FtpCLient {
     async downloadFile(fileId, fileName) {
         let currentBytesRead = 0
         var fileCompleted = false
-
-
-        let writableFileStream = streamSaver.createWriteStream(fileName).getWriter();
-        let writableStream = new WritableStream(
-            {
-                write(chunk) {
-                    currentBytesRead += chunk.length
-                    return writableFileStream.write(chunk)
-                },
-                close() {
-                    console.log('Download completed!');
-                    fileCompleted = true
-                    return writableFileStream.close();
-                },
-                abort(err) {
-                    console.error('Download failed:', err);
-                    fileCompleted = true
-                    return writableFileStream.abort(err);
-                },
-            }
-        )
-
-        let writter = writableStream.getWriter()
+        let writter = streamSaver.createWriteStream(fileName).getWriter()
         while (!fileCompleted) {
 
             try {
+                
                 const request = await fetch(`http://${this.hostname}:${this.port}/files/download/${fileId}`, {
                     method: "GET",
                     headers: {
@@ -57,27 +36,49 @@ export class FtpCLient {
                     }
                 })
 
-                const response = await request.json()
-                console.log(response)
-                const binary = atob(response.chunk) // being json the fetch converts it to base64
 
-                const chunk = new Uint8Array(binary.length);
+                const headers = request.headers
+                const reader = request.body.getReader()
 
-                for (let i = 0; i < binary.length; i++) {
-                    chunk[i] = binary.charCodeAt(i);
+
+                while (true) {
+                    console.log('leyendo')
+                    const result = await reader.read()
+
+                    if (result.done) {
+
+                        break
+                    }
+
+                    try {
+                        await writter.write(result.value);
+                        currentBytesRead += result.value.byteLength;
+                        result.value = null;
+                    } catch (e) {
+                        console.log("download failed!")
+                        fileCompleted = true
+                        await writter.abort(e)
+                    }
+                            
+
+
                 }
-                await writter.write(chunk)
-                if (response.isLastChunk) {
+                reader.releaseLock()
+                console.log(headers.get("X-Is-Final"))
+                if (headers.get("X-Is-Final") === "true") {
+                    console.log('llege al final')
                     fileCompleted = true
                     await writter.close()
-                    
+
                 }
+
 
             } catch (error) {
                 console.error(error)
             }
         }
     }
+
 
     async createFolder(folderName, fatherId) {
         try {
@@ -105,23 +106,20 @@ export class FtpCLient {
         const bufferSize = 1024 * 1024 * 20
         for (let i = 0; i < file.size; i += bufferSize) {
 
-            const chunk = this.chunkFile(file, bufferSize, i)
-            const buffer = await chunk.arrayBuffer()
+            //const chunk = this.chunkFile(file, bufferSize, i)
+            const chunk = file.slice(i, bufferSize + i)
+            //const buffer = await chunk.arrayBuffer()
             try {
                 const request = await fetch(`http://${this.hostname}:${this.port}/files`, {
                     method: "POST",
-                    body: JSON.stringify({
-                        "fileName": `${file.name}`,
-                        buffer: Array.from(new Uint8Array(buffer)),
-                        isFirstChunk: i === 0
-
-                    }
-                    ), // i cannot send raw bytes into stringify
+                    body: chunk,
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/octet-stream",
                         "Content-Size": `${file.size}`,
                         "X-Folder-Id": `${folderId}`,
-                        "X-File-Type": ""
+                        "X-File-Type": "",
+                        "X-File-Name": encodeURIComponent(file.name),
+                        "X-Is-First-Chunk": `${i === 0}`
                     }
                 })
 
@@ -129,9 +127,13 @@ export class FtpCLient {
 
                 console.log(response)
             } catch (error) {
-                console.error(error)
+                console.log(error.message)
+                console.log("retrying")
+                // retry 
+                i = i - bufferSize
             }
         }
+        console.log("se termino la subida")
     }
 
     async getFilesByFolder(folderId) {
@@ -141,8 +143,6 @@ export class FtpCLient {
             })
 
             const response = await request.json()
-
-            console.log(response)
             return response
         } catch (error) {
             console.error(error)
@@ -156,8 +156,19 @@ export class FtpCLient {
             })
 
             const response = await request.json()
+            return response
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
-            console.log(response)
+    async getFolderById(folderId) {
+        try {
+            const request = await fetch(`http://${this.hostname}:${this.port}/folders/${folderId}`, {
+                method: "GET"
+            })
+
+            const response = await request.json()
             return response
         } catch (error) {
             console.error(error)

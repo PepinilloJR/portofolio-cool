@@ -15,6 +15,10 @@ export function AboutMe() {
             socialTarget.current.classList.toggle('scrolled', !e[0].isIntersecting)
         })
         observer.observe(socialTarget?.current)
+
+        return () => {
+            observer.disconnect();
+        };
     }, [])
 
 

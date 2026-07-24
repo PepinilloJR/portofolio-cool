@@ -92,6 +92,11 @@ function Project({ type, content, title, subtitle, image, url }) {
             project.current.classList.toggle('projectAnimated', e[0].isIntersecting)
         },{scrollMargin: "10px"})
         observer.observe(observerTarget.current)
+
+
+        return () => {
+            observer.disconnect();
+        };
     }, []) 
 
     return <div id={title.replace(" ", "") + " " + "Directory"} ref={project} className='projectContainer'>

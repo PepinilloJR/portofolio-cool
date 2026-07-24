@@ -85,7 +85,7 @@ export function RufusController() {
         const viewPortY = window.innerHeight + window.scrollY
         const viewPortX = window.innerWidth + window.scrollX
 
-        const { width, height } = rufusRef.current.getBoundingClientRect()
+        const { width, height } = rufusRef?.current?.getBoundingClientRect()
 
         const pos = { x: x, y: y }
 
@@ -134,12 +134,15 @@ export function RufusController() {
     }
 
     useEffect(() => {
+        let cancelled = false;
+
         window.addEventListener("mousemove", mouseMovedHandler)
         window.addEventListener("mouseup", mouseUpHandler)
         var lastTime = performance.now()
         let tentativePosition = 0
         let collitions = []
-        const fall = () => {
+        const fall = (cancelled) => {
+            if (!cancelled) {
             const now = performance.now()
 
             const dt = (now - lastTime) / 1000
@@ -159,12 +162,20 @@ export function RufusController() {
             }
 
             collitions = []
+            }
+            
+            let frame = requestAnimationFrame(() => fall(cancelled))
 
-            requestAnimationFrame(fall)
-
+            if (cancelled) {
+                cancelAnimationFrame(frame)
+            }
         }
 
-        fall()
+        fall(cancelled)
+
+        return () => {
+            cancelled = true
+        }
 
     }, [])
 

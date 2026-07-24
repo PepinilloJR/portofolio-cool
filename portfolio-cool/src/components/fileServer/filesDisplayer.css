@@ -1,0 +1,76 @@
+.filesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, calc(7vw + 7vh));
+    width: 53%;
+    height: calc(22vw + 22vh);
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: #1e1e1e;
+    margin: 0;
+    padding: 1%;
+}
+
+.file,
+.folder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: calc(7vw + 7vh);
+    height: calc(6vw + 6vh);
+    margin: calc(0.2vw + 0.2vh);
+    border-radius: 12px;
+
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.file {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #00000000;
+    color: white;
+    font-size: calc(0.5vw + 0.5vh);
+}
+
+.fileTitle {
+    font-size: calc(0.5vw + 0.5vh);
+    width: calc(4vw + 4vh);
+    height: calc(2vw + 2vh);
+    overflow: hidden;
+}
+
+.fileIcon {
+    color: rgb(49, 255, 245);
+    width: calc(2vw + 2vh);
+    height: calc(2vw + 2vh);
+}
+
+.file:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+}
+
+.folder {
+    background: #00000000;
+    color: #e6e6e6;
+    font-size: calc(0.5vw + 0.5vh);
+}
+
+.folderIcon {
+    color: burlywood;
+    width: calc(2vw + 2vh);
+    height: calc(2vw + 2vh);
+}
+
+.folderTitle {
+    font-size: calc(0.5vw + 0.5vh);
+    width: calc(4vw + 4vh);
+    height: calc(2vw + 2vh);
+    overflow: hidden;
+    
+}
+
+.folder:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+}
